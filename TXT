@@ -1,0 +1,75 @@
+Шаги:
+Написание Python кода: Сначала напишем скрипт на Python, который генерирует случайное число, выводит его на экран и копирует в буфер обмена.
+
+Создание .exe файла: Используем PyInstaller, чтобы упаковать Python скрипт в исполняемый файл .exe.
+
+1. Python Скрипт
+Сначала напишем скрипт на Python. Вам понадобится библиотека pyperclip для работы с буфером обмена. Вы можете установить её с помощью pip:
+
+sh
+Копировать код
+pip install pyperclip
+Теперь создайте файл app.py со следующим содержимым:
+
+python
+Копировать код
+import pyperclip
+import random
+import tkinter as tk
+from tkinter import messagebox
+
+def random_number(min_value, max_value):
+    pre_result_number = random.randint(min_value, max_value - 1)
+    result_number = f"001{pre_result_number}"
+    return result_number
+
+def copy_to_clipboard(text):
+    pyperclip.copy(text)
+
+def show_result():
+    generated_number = random_number(10**16, 10**17)
+    result_label.config(text=generated_number)
+    copy_to_clipboard(generated_number)
+    messagebox.showinfo("Information", "SSSC copied to clipboard!")
+
+# Создание GUI
+root = tk.Tk()
+root.title("SSSC Generator")
+
+result_label = tk.Label(root, text="", font=("Arial", 16))
+result_label.pack(pady=20)
+
+refresh_button = tk.Button(root, text="Generate SSSC and copy to clipboard", command=show_result)
+refresh_button.pack(pady=20)
+
+# Генерация и отображение числа при запуске приложения
+show_result()
+
+root.mainloop()
+Этот скрипт делает следующее:
+
+Генерирует случайное число.
+Отображает его в графическом интерфейсе с помощью библиотеки tkinter.
+Копирует его в буфер обмена с помощью pyperclip.
+Показывает уведомление о копировании.
+2. Создание .exe файла
+Теперь упакуем этот скрипт в .exe файл с помощью PyInstaller. Убедитесь, что у вас установлен PyInstaller:
+
+sh
+Копировать код
+pip install pyinstaller
+После установки PyInstaller, создайте .exe файл следующим образом:
+
+sh
+Копировать код
+pyinstaller --onefile --windowed app.py
+Параметры:
+
+--onefile: Создает один исполняемый файл.
+--windowed: Отключает консольное окно (для GUI приложений).
+После выполнения этой команды, в директории dist будет создан файл app.exe. Этот файл можно запустить на Windows без необходимости установки Python.
+
+Примечания
+pyperclip: Работает на разных платформах (Windows, macOS, Linux), но требует установки.
+tkinter: Включен в стандартную библиотеку Python, поэтому нет необходимости в дополнительных установках.
+Теперь у вас есть Python приложение, которое генерирует случайные числа, показывает их на экране и копирует в буфер обмена, упакованное в исполняемый файл для Windows!
